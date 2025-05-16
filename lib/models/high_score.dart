@@ -1,19 +1,20 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'difficulty.dart';
 
 class HighScore {
-  static const String _highScoreKey = 'high_score';
+  static String _getHighScoreKey(Difficulty difficulty) => 'high_score_${difficulty.name}';
 
-  static Future<int> getHighScore() async {
+  static Future<int> getHighScore(Difficulty difficulty) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_highScoreKey) ?? 0;
+    return prefs.getInt(_getHighScoreKey(difficulty)) ?? 0;
   }
 
-  static Future<void> saveHighScore(int score) async {
+  static Future<void> saveHighScore(Difficulty difficulty, int score) async {
     final prefs = await SharedPreferences.getInstance();
-    final currentHighScore = await getHighScore();
+    final currentHighScore = await getHighScore(difficulty);
     
     if (score > currentHighScore) {
-      await prefs.setInt(_highScoreKey, score);
+      await prefs.setInt(_getHighScoreKey(difficulty), score);
     }
   }
 } 

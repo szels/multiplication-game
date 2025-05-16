@@ -19,7 +19,7 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   int _score = 0;
-  int _timeLeft = 60;
+  int _timeLeft =10;
   int _num1 = 0;
   int _num2 = 0;
   int _correctAnswer = 0;
@@ -80,7 +80,7 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       _isGameOver = true;
     });
-    HighScore.saveHighScore(_score);
+    HighScore.saveHighScore(widget.difficulty, _score);
   }
 
   @override

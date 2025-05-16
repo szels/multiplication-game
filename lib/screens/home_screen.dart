@@ -41,41 +41,46 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ...Difficulty.values.map((difficulty) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GameScreen(difficulty: difficulty),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GameScreen(difficulty: difficulty),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      backgroundColor: _getDifficultyColor(difficulty),
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  backgroundColor: _getDifficultyColor(difficulty),
-                ),
-                child: Text(
-                  difficulty.label,
-                  style: const TextStyle(fontSize: 18),
-                ),
+                    child: Text(
+                      difficulty.label,
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  FutureBuilder<int>(
+                    future: HighScore.getHighScore(difficulty),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data! > 0) {
+                        return Text(
+                          'High Score: ${snapshot.data}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: _getDifficultyColor(difficulty),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ],
               ),
             )).toList(),
-            const SizedBox(height: 20),
-            FutureBuilder<int>(
-              future: HighScore.getHighScore(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(
-                    'High Score: ${snapshot.data}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                }
-                return const Text('No high score yet');
-              },
-            ),
           ],
         ),
       ),
