@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/home_screen.dart';
+import 'providers/theme_provider.dart';
 
 void main() {
-  runApp(const MultiplicationGame());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const MultiplicationGame(),
+    ),
+  );
 }
 
 class MultiplicationGame extends StatelessWidget {
@@ -10,14 +17,14 @@ class MultiplicationGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Multiplication Game',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        useMaterial3: true,
-      ),
-      home: const HomeScreen(),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          title: 'Multiplication Game',
+          theme: themeProvider.theme,
+          home: const HomeScreen(),
+        );
+      },
     );
   }
 } 

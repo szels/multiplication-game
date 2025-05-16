@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'game_screen.dart';
 import '../models/high_score.dart';
 import '../models/difficulty.dart';
+import '../providers/theme_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,6 +14,20 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Multiplication Game'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Consumer<ThemeProvider>(
+              builder: (context, themeProvider, child) {
+                return Icon(
+                  themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                );
+              },
+            ),
+            onPressed: () {
+              context.read<ThemeProvider>().toggleTheme();
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
