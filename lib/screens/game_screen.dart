@@ -2,10 +2,16 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../models/high_score.dart';
+import '../models/difficulty.dart';
 import 'home_screen.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key});
+  final Difficulty difficulty;
+  
+  const GameScreen({
+    super.key,
+    required this.difficulty,
+  });
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -52,8 +58,8 @@ class _GameScreenState extends State<GameScreen> {
 
   void _generateNewProblem() {
     final random = Random();
-    _num1 = random.nextInt(20) + 1;
-    _num2 = random.nextInt(20) + 1;
+    _num1 = random.nextInt(widget.difficulty.maxNumber) + 1;
+    _num2 = random.nextInt(widget.difficulty.maxNumber) + 1;
     _correctAnswer = _num1 * _num2;
     _answerController.clear();
     _answerFocusNode.requestFocus();

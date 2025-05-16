@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'game_screen.dart';
 import '../models/high_score.dart';
+import '../models/difficulty.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,21 +31,35 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GameScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-              ),
-              child: const Text(
-                'Start Game',
-                style: TextStyle(fontSize: 18),
+            const Text(
+              'Select Difficulty:',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 20),
+            ...Difficulty.values.map((difficulty) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GameScreen(difficulty: difficulty),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  backgroundColor: _getDifficultyColor(difficulty),
+                ),
+                child: Text(
+                  difficulty.label,
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
+            )).toList(),
             const SizedBox(height: 20),
             FutureBuilder<int>(
               future: HighScore.getHighScore(),
@@ -65,5 +80,16 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _getDifficultyColor(Difficulty difficulty) {
+    switch (difficulty) {
+      case Difficulty.easy:
+        return Colors.green;
+      case Difficulty.medium:
+        return Colors.orange;
+      case Difficulty.hard:
+        return Colors.red;
+    }
   }
 } 

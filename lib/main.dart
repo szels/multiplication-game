@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/game_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const MultiplicationGame());
@@ -17,7 +17,7 @@ class MultiplicationGame extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         useMaterial3: true,
       ),
-      home: const GameScreen(),
+      home: const HomeScreen(),
     );
   }
 } 
