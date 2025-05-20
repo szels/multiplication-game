@@ -3,14 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../models/high_score.dart';
 import '../models/difficulty.dart';
+import '../models/user.dart';
 import 'home_screen.dart';
 
 class GameScreen extends StatefulWidget {
   final Difficulty difficulty;
+  final User user;
   
   const GameScreen({
     super.key,
     required this.difficulty,
+    required this.user,
   });
 
   @override
@@ -80,7 +83,7 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       _isGameOver = true;
     });
-    HighScore.saveHighScore(widget.difficulty, _score);
+    HighScore.saveHighScore(widget.difficulty, _score, widget.user);
   }
 
   @override
